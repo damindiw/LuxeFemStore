@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LuxeFemStore</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LuxeFemStore.styles.css" asp-append-version="true" />
+    
+    <style>
+        /* Modernized Header Styling */
+        .navbar-brand-custom {
+            font-size: 1.85rem; 
+            font-weight: 900;
+            color: #FF69B4 !important; /* Hot Pink */
+            letter-spacing: -1px;
+            text-transform: uppercase;
+        }
+
+        .nav-link-custom {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-left: 20px;
+            color: #333 !important;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link-custom:hover {
+            color: #ffc107 !important; /* Gold highlight */
+            transform: translateY(-1px);
+        }
+
+        .shop-highlight {
+            color: #000 !important;
+            font-weight: 700;
+            border-bottom: 2px solid #000;
+        }
+
+        /* Glowing Button Animation */
+        .btn-glow {
+            background-color: #ffc107 !important; /* Matches your current yellow */
+            border: none;
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+            animation: pulse-yellow 2s infinite;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-glow:hover {
+            transform: scale(1.05); /* Slightly grows when hovered */
+            box-shadow: 0 0 20px rgba(255, 193, 7, 1);
+        }
+
+        @@keyframes pulse-yellow {
+            0% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+            }
+            70% {
+                transform: scale(1);
+                box-shadow: 0 0 0 15px rgba(255, 193, 7, 0);
+            }
+            100% {
+                transform: scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
+            }
+        }
+
+        /* Footer & Layout Adjustments */
+        .social-link i { font-size: 24px; transition: color 0.3s; }
+        .fa-facebook { color: #1877F2; }
+        .fa-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .fa-whatsapp { color: #25D366; }
+        .social-link:hover i { color: #ffc107; -webkit-text-fill-color: #ffc107; }
+        html, body { height: 100%; }
+    </style>
+</head>
+<body class="d-flex flex-column h-100">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3 py-3">
+            <div class="container">
+                <a class="navbar-brand navbar-brand-custom" asp-controller="Home" asp-action="Index">LuxeFemStore</a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarMain">
+                    <ul class="navbar-nav ms-auto align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom shop-highlight" asp-controller="Shop" asp-action="Index">Shop Fashion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" asp-controller="Home" asp-action="About">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" asp-controller="Home" asp-action="Help">Help</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" asp-controller="Home" asp-action="Contact">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom text-muted small" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                    </ul>
+
+                    <form class="d-flex ms-lg-4" asp-controller="Shop" asp-action="Search" method="get">
+                        <div class="input-group">
+                            <input class="form-control border-dark" type="search" name="query" placeholder="Search fashion...">
+                            <button class="btn btn-dark" type="submit">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container flex-grow-1">
+        <main role="main" class="pb-3">
+            @RenderBody() 
+        </main>
+    </div>
+
+    <footer class="bg-dark text-light pt-5 pb-4 mt-5">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 mt-3">
+                    <h5 class="text-uppercase mb-4 font-weight-bold text-warning">LuxeFemStore</h5>
+                    <p>Your one-stop destination for premium fashion. We bring luxury to your doorstep.</p>
+                </div>
+
+                <div class="col-md-2 mx-auto mt-3">
+                    <h5 class="text-uppercase mb-4 font-weight-bold text-white">Support</h5>
+                    <p><a asp-controller="Home" asp-action="About" class="text-light" style="text-decoration: none;">About Us</a></p>
+                    <p><a asp-controller="Home" asp-action="Privacy" class="text-light" style="text-decoration: none;">Privacy Policy</a></p>
+                    <p><a asp-controller="Home" asp-action="Terms" class="text-light" style="text-decoration: none;">Terms of Service</a></p>
+                    <p><a asp-controller="Home" asp-action="Help" class="text-light" style="text-decoration: none;">Help Center</a></p>
+                </div>
+
+                <div class="col-md-3 mt-3">
+                    <h5 class="text-uppercase mb-4 font-weight-bold text-white">Contact</h5>
+                    <p><i class="fas fa-home me-3 text-warning"></i> Colombo, Sri Lanka</p>
+                    <p><i class="fas fa-envelope me-3 text-warning"></i> support@luxefem.com</p>
+                </div>
+
+                <div class="col-md-3 mt-3 text-center">
+                    <h5 class="text-uppercase mb-4 font-weight-bold text-white">Follow Us</h5>
+                    <div class="mb-4">
+                        <a href="#" class="social-link me-3"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="social-link me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="my-4 border-secondary">
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="small text-muted mb-0">© 2026 LuxeFemStore. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

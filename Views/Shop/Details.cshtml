@@ -1,0 +1,124 @@
+@model LuxeFemStore.Models.Product
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="p-3 border rounded bg-light shadow-sm">
+                <img src="@Model.ImageUrl" class="img-fluid" alt="@Model.Name" 
+                     style="width: 100%; height: 500px; object-fit: contain;">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-action="Index">Shop</a></li>
+                    <li class="breadcrumb-item active">@Model.Category</li>
+                </ol>
+            </nav>
+
+            <h1 class="display-5 fw-bold">@Model.Name</h1>
+            
+            <div class="mb-3">
+                <span class="text-warning">★★★★☆</span>
+                <span class="text-muted ms-2">(12 Customer Reviews)</span>
+            </div>
+
+            <div class="mb-3">
+                @if (Model.StockQuantity > 5)
+                {
+                    <span class="badge bg-success">In Stock</span>
+                }
+                else if (Model.StockQuantity > 0)
+                {
+                    <span class="badge bg-warning text-dark">Only @Model.StockQuantity Left!</span>
+                }
+                else
+                {
+                    <span class="badge bg-danger">Sold Out</span>
+                }
+            </div>
+
+            <h3 class="text-success mb-3">$@Model.Price</h3>
+
+            <div class="card bg-light border-0 mb-4">
+                <div class="card-body">
+                    <p class="mb-2"><strong>KOKO:</strong> 3 payments of $@((Model.Price / 3).ToString("F2"))</p>
+                    <p class="mb-0 text-primary" style="cursor:pointer">Learn More about MintPay</p>
+                </div>
+            </div>
+
+            <p class="lead text-muted">@Model.Description</p>
+
+            <div class="d-grid gap-2 d-md-block mt-4">
+                @if (Model.StockQuantity > 0)
+                {
+                    <form asp-action="AddToCart" method="post" class="d-inline">
+                        <input type="hidden" name="productId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-outline-dark btn-lg px-5">Add to Cart</button>
+                    </form>
+                    <button type="button" class="btn btn-success btn-lg px-5">Buy Now</button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-secondary btn-lg px-5" disabled>Out of Stock</button>
+                    <p class="text-danger mt-2">
+                        <i class="fas fa-exclamation-circle"></i> This item is currently unavailable.
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+
+    <hr class="my-5" />
+
+    <div class="row">
+        <div class="col-md-8">
+            <h4 class="mb-4">Customer Reviews</h4>
+            
+            <div class="review-item mb-4 pb-3 border-bottom">
+                <div class="d-flex justify-content-between">
+                    <strong>Anjali P.</strong>
+                    <span class="text-warning">★★★★★</span>
+                </div>
+                <p class="text-muted mt-2">"Absolutely love the quality of this item. The delivery was very fast too!"</p>
+            </div>
+
+            <div class="review-item mb-4 pb-3 border-bottom">
+                <div class="d-flex justify-content-between">
+                    <strong>Sanduni M.</strong>
+                    <span class="text-warning">★★★★☆</span>
+                </div>
+                <p class="text-muted mt-2">"Very beautiful design. The color is slightly darker than the photo, but still lovely."</p>
+            </div>
+            
+            <button class="btn btn-outline-secondary btn-sm">Write a Review</button>
+        </div>
+    </div>
+</div>
+
+<hr class="my-5" />
+
+<div class="container mb-5">
+    <h3 class="mb-4 text-center">You May Also Like</h3>
+    <div class="row g-4">
+        @if (ViewBag.RelatedProducts != null)
+        {
+            foreach (var item in (List<LuxeFemStore.Models.Product>)ViewBag.RelatedProducts)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 shadow-sm border-0 text-center">
+                        <img src="@item.ImageUrl" class="card-img-top bg-light" style="height: 200px; object-fit: contain; padding: 10px;" alt="@item.Name">
+                        <div class="card-body d-flex flex-column">
+                            <h6>@item.Name</h6>
+                            <p class="text-success fw-bold">$@item.Price</p>
+                            <div class="mt-auto">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-dark w-100">View Product</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

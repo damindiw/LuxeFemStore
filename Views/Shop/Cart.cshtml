@@ -1,0 +1,34 @@
+@model LuxeFemStore.Models.Product
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Your Shopping Cart</h2>
+
+    @if (Model != null)
+    {
+        <div class="card shadow-sm mx-auto" style="max-width: 600px;">
+            <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="@Model.ImageUrl" class="img-fluid rounded-start" alt="@Model.Name">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">@Model.Name</h5>
+                        <p class="card-text text-muted">Category: @Model.Category</p>
+                        <p class="card-text fw-bold text-success">$@Model.Price</p>
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary">Continue Shopping</a>
+                            <button class="btn btn-dark">Checkout Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center">
+            <p class="lead">Your cart is currently empty.</p>
+            <a asp-action="Index" class="btn btn-dark">Go to Shop</a>
+        </div>
+    }
+</div>

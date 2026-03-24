@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="p-5 mb-4 bg-dark text-white rounded-3 shadow-lg" style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80'); background-size: cover; background-position: center; min-height: 500px; display: flex; align-items: center;">
+    <div class="container-fluid py-5 text-center">
+        <h1 class="display-3 fw-bold text-uppercase">Luxury Redefined</h1>
+        <p class="fs-4">Discover the latest trends in premium handbags, makeup, and elegant clothing.</p>
+        <a asp-controller="Shop" asp-action="Index" class="btn btn-warning btn-lg px-5 fw-bold text-uppercase">Shop the Collection</a>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-5 fw-bold">Explore Our Categories</h2>
+    <div class="row g-4 text-center">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden category-card">
+                <img src="/images/homebag.jpg" class="card-img-top" style="height: 300px; object-fit: cover;" alt="Handbags">
+                <div class="card-body">
+                    <h4 class="fw-bold">Handbags</h4>
+                    <p class="text-muted">Premium leather and stylish designs.</p>
+                    <a asp-controller="Shop" asp-action="Category" asp-route-name="Handbags" class="btn btn-outline-dark">View Handbags</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden category-card">
+                <img src="/images/homemakeup.jpg" class="card-img-top" style="height: 300px; object-fit: cover;" alt="Makeup">
+                <div class="card-body">
+                    <h4 class="fw-bold">Makeup</h4>
+                    <p class="text-muted">Enhance your beauty with quality products.</p>
+                    <a asp-controller="Shop" asp-action="Category" asp-route-name="Makeup" class="btn btn-outline-dark">View Makeup</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden category-card">
+                <img src="/images/homeclothe.jpg" class="card-img-top" style="height: 300px; object-fit: cover;" alt="Clothing">
+                <div class="card-body">
+                    <h4 class="fw-bold">Clothing</h4>
+                    <p class="text-muted">Elegant materials and traditional sarees.</p>
+                    <a asp-controller="Shop" asp-action="Category" asp-route-name="Clothing" class="btn btn-outline-dark">View Clothing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-light py-5 mt-5">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <i class="fas fa-shipping-fast fa-3x text-warning mb-3"></i>
+                <h5>Fast Delivery</h5>
+                <p class="text-muted">Quick shipping across the island.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-check-circle fa-3x text-warning mb-3"></i>
+                <h5>Quality Assured</h5>
+                <p class="text-muted">100% genuine premium materials.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-headset fa-3x text-warning mb-3"></i>
+                <h5>24/7 Support</h5>
+                <p class="text-muted">We are here to help you anytime.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .category-card {
+        transition: transform 0.3s ease;
+    }
+    .category-card:hover {
+        transform: translateY(-10px);
+    }
+</style>

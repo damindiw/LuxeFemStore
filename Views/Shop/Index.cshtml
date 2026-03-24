@@ -1,0 +1,44 @@
+@model IEnumerable<LuxeFemStore.Models.Product>
+
+<h2 class="text-center my-4">Shop by Category</h2>
+
+<div class="container">
+    <div class="row g-4"> 
+        
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm text-center border-0">
+                <img src="/images/bag.jpg" class="card-img-top" alt="Handbags" style="height: 250px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5>Handbags</h5>
+                    <div class="mt-auto">
+                        <a asp-action="Category" asp-route-name="Handbags" class="btn btn-dark w-100">Explore Handbags</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm text-center border-0">
+                <img src="/images/makeup.jpg" class="card-img-top" alt="Makeup" style="height: 250px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5>Makeup</h5>
+                    <div class="mt-auto">
+                        <a asp-action="Category" asp-route-name="Makeup" class="btn btn-dark w-100">Explore Makeup</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm text-center border-0">
+                <img src="/images/clothe.jpg" class="card-img-top" alt="Clothing" style="height: 250px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5>Clothing Materials</h5>
+                    <div class="mt-auto">
+                        <a asp-action="Category" asp-route-name="Clothing" class="btn btn-dark w-100">Explore Clothing</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
