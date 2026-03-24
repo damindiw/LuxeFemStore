@@ -1,0 +1,10 @@
+# Visual Studio / .NET Core
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.sln.docstates
+
+# User-specific files
+.DS_Store
