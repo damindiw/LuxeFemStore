@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using LuxeFemStore.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Add Database Service
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -32,8 +39,7 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Account}/{action=SignUp}/{id?}");
 
 
 app.Run();

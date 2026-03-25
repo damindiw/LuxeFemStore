@@ -92,6 +92,10 @@ public class ShopController : Controller
 
     public IActionResult Index()
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserName")))
+    {
+        return RedirectToAction("SignUp", "Account");
+    }
         var products = GetMasterProductList().Take(3).ToList();
         return View(products);
     }

@@ -11,94 +11,136 @@
     <link rel="stylesheet" href="~/LuxeFemStore.styles.css" asp-append-version="true" />
     
     <style>
-        /* Modernized Header Styling */
+        /* Force Single-Line Layout */
+        .navbar-container-custom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            flex-wrap: nowrap !important;
+        }
+
         .navbar-brand-custom {
-            font-size: 1.85rem; 
+            font-size: 1.6rem; 
             font-weight: 900;
-            color: #FF69B4 !important; /* Hot Pink */
+            color: #FF69B4 !important; /* Hot Pink Brand Color */
             letter-spacing: -1px;
             text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .navbar-nav {
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            align-items: center;
         }
 
         .nav-link-custom {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            margin-left: 20px;
             color: #333 !important;
             transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
         }
 
-        .nav-link-custom:hover {
-            color: #ffc107 !important; /* Gold highlight */
-            transform: translateY(-1px);
+        /* Underline Animation */
+        .nav-link-custom::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #FF69B4;
+            transition: width 0.3s ease;
         }
+
+        .nav-link-custom:hover::after { width: 100%; }
+        .nav-link-custom:hover { color: #FF69B4 !important; }
 
         .shop-highlight {
             color: #000 !important;
             font-weight: 700;
-            border-bottom: 2px solid #000;
         }
 
-        /* Glowing Button Animation */
-        .btn-glow {
-            background-color: #ffc107 !important; /* Matches your current yellow */
+        /* Compact Search Bar Alignment */
+        .search-container {
+            max-width: 180px;
+            margin-left: 15px;
+        }
+        
+        .search-container .form-control {
+            border-radius: 20px 0 0 20px !important;
+            border-color: #ddd;
+            font-size: 0.85rem;
+        }
+
+        .search-container .btn-search {
+            border-radius: 0 20px 20px 0 !important;
+            background-color: #212529;
+            color: white;
             border: none;
-            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
-            animation: pulse-yellow 2s infinite;
-            transition: transform 0.2s ease;
         }
 
-        .btn-glow:hover {
-            transform: scale(1.05); /* Slightly grows when hovered */
-            box-shadow: 0 0 20px rgba(255, 193, 7, 1);
+        /* Logout Button Appearance */
+        .btn-logout-nav {
+            font-size: 0.8rem;
+            padding: 5px 15px;
+            margin-left: 10px;
+            white-space: nowrap;
         }
 
-        @@keyframes pulse-yellow {
-            0% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
-            }
-            70% {
-                transform: scale(1);
-                box-shadow: 0 0 0 15px rgba(255, 193, 7, 0);
-            }
-            100% {
-                transform: scale(0.95);
-                box-shadow: 0 0 0 0 rgba(255, 193, 7, 0);
-            }
-        }
-
-        /* Footer & Layout Adjustments */
-        .social-link i { font-size: 24px; transition: color 0.3s; }
-        .fa-facebook { color: #1877F2; }
+        /* --- RESTORED SOCIAL MEDIA COLORS --- */
+        .social-link i { font-size: 24px; transition: transform 0.3s; }
+        .fa-facebook { color: #1877F2 !important; } /* Official Facebook Blue */
         .fa-instagram {
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-        }
-        .fa-whatsapp { color: #25D366; }
-        .social-link:hover i { color: #ffc107; -webkit-text-fill-color: #ffc107; }
+        } /* Official Instagram Gradient */
+        .fa-whatsapp { color: #25D366 !important; } /* Official WhatsApp Green */
+        
+        .social-link:hover { transform: scale(1.1); }
+
         html, body { height: 100%; }
     </style>
 </head>
 <body class="d-flex flex-column h-100">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3 py-3">
-            <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm py-2">
+            <div class="container navbar-container-custom">
+                
                 <a class="navbar-brand navbar-brand-custom" asp-controller="Home" asp-action="Index">LuxeFemStore</a>
                 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarMain">
-                    <ul class="navbar-nav ms-auto align-items-center">
+                <div class="d-flex align-items-center">
+                    <ul class="navbar-nav me-2">
                         <li class="nav-item">
                             <a class="nav-link nav-link-custom" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom shop-highlight" asp-controller="Shop" asp-action="Index">Shop Fashion</a>
-                        </li>
+                        
+                        @using Microsoft.AspNetCore.Http
+                        @{ var userName = Context.Session.GetString("UserName"); }
+
+                        @if (!string.IsNullOrEmpty(userName))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom shop-highlight" asp-controller="Shop" asp-action="Index">Shop Fashion</a>
+                            </li>
+                            /* GREETING REMOVED AS REQUESTED */
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom" asp-controller="Account" asp-action="SignIn">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-custom" asp-controller="Account" asp-action="SignUp">Register</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link nav-link-custom" asp-controller="Home" asp-action="About">About Us</a>
                         </li>
@@ -108,25 +150,27 @@
                         <li class="nav-item">
                             <a class="nav-link nav-link-custom" asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link nav-link-custom text-muted small" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
                     </ul>
 
-                    <form class="d-flex ms-lg-4" asp-controller="Shop" asp-action="Search" method="get">
-                        <div class="input-group">
-                            <input class="form-control border-dark" type="search" name="query" placeholder="Search fashion...">
-                            <button class="btn btn-dark" type="submit">
+                    <form class="d-flex search-container" asp-controller="Shop" asp-action="Search" method="get">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control" type="search" name="query" placeholder="Search...">
+                            <button class="btn btn-search" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </form>
+
+                    @if (!string.IsNullOrEmpty(userName))
+                    {
+                        <a class="btn btn-sm btn-outline-danger rounded-pill btn-logout-nav" asp-controller="Account" asp-action="Logout">Logout</a>
+                    }
                 </div>
             </div>
         </nav>
     </header>
 
-    <div class="container flex-grow-1">
+    <div class="container flex-grow-1 mt-4">
         <main role="main" class="pb-3">
             @RenderBody() 
         </main>
@@ -163,9 +207,7 @@
                     </div>
                 </div>
             </div>
-            
             <hr class="my-4 border-secondary">
-
             <div class="row">
                 <div class="col-12 text-center">
                     <p class="small text-muted mb-0">© 2026 LuxeFemStore. All Rights Reserved.</p>

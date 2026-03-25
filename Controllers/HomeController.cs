@@ -15,6 +15,10 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserName")))
+    {
+        return RedirectToAction("SignUp", "Account");
+    }
         return View();
     }
 
