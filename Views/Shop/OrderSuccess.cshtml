@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Order Success";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <div class="card shadow-lg border-0 p-5">
+                <div class="mb-4">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 5rem;"></i>
+                </div>
+                <h1 class="fw-bold">Thank You!</h1>
+                <p class="lead text-muted">Your order has been placed successfully.</p>
+                <div class="bg-light p-3 rounded mb-4">
+                    <p class="mb-1 small text-uppercase fw-bold text-muted">Order Reference</p>
+                    <h5 class="mb-0">#LXF-@Guid.NewGuid().ToString().Substring(0, 8).ToUpper()</h5>
+                </div>
+                <p>We’ve sent a confirmation email with your delivery details. Your premium items will arrive soon!</p>
+                <hr />
+                <a asp-action="Index" class="btn btn-dark btn-lg w-100">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</div>

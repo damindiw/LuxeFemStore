@@ -1,0 +1,38 @@
+@model List<LuxeFemStore.Models.Product>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg p-4 border-0">
+                <h2 class="text-center fw-bold mb-4">Confirm Your Order</h2>
+                <p class="text-muted text-center">Please review your items before final processing.</p>
+                <hr />
+                
+                @foreach(var item in Model)
+                {
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>@item.Name</span>
+                        <span class="fw-bold">Rs. @item.Price.ToString("N2")</span>
+                    </div>
+                }
+                
+                <hr />
+                <div class="d-flex justify-content-between h5 fw-bold">
+                    <span>Total Amount:</span>
+                    <span class="text-primary">Rs. @Model.Sum(x => x.Price).ToString("N2")</span>
+                </div>
+
+                <form asp-action="PlaceOrder" method="post">
+                    <div class="mt-4">
+                        <label class="form-label">Delivery Address (Sri Lanka)</label>
+                        <textarea class="form-control mb-3" name="address" placeholder="Enter your full address here..." rows="3" required></textarea>
+                        
+                        <button type="submit" class="btn btn-dark w-100 btn-lg py-3 shadow">
+                            Place Order Now
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

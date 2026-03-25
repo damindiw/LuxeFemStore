@@ -1,30 +1,93 @@
 using Microsoft.AspNetCore.Mvc;
 using LuxeFemStore.Models;
+using Newtonsoft.Json; // Required for List Serialization
 
 namespace LuxeFemStore.Controllers;
 
 public class ShopController : Controller
 {
-    // A single master list so we don't have to keep repeating it
+    // Generates a comprehensive list of products with Premium Naming Conventions
     private List<Product> GetMasterProductList()
     {
-        return new List<Product>
-        {
-            // --- Handbags ---
-            new Product { Id = 1, Name = "Leather Handbag", Category = "Handbags", Price = 120.00m, ImageUrl = "/images/bag1.jpg", Description = "Premium quality leather handbag with gold-tone hardware.",StockQuantity = 12 },
-            new Product { Id = 4, Name = "Green Bucket Bag", Category = "Handbags", Price = 95.00m, ImageUrl = "/images/bag2.jpg", Description = "Stylish green bucket bag perfect for daily use.",StockQuantity = 0 },
-            new Product { Id = 5, Name = "Black Padlock Bag", Category = "Handbags", Price = 110.00m, ImageUrl = "/images/bag3.jpg", Description="Amazing black padlock bag for handbag's lovers.",StockQuantity = 2 },
-            
-            // --- Makeup ---
-            new Product { Id = 2, Name = "Matte Lipstick", Category = "Makeup", Price = 25.00m, ImageUrl = "/images/makeup1.jpg", Description = "Long-lasting matte finish for a bold look.",StockQuantity = 10 },
-            new Product { Id = 6, Name = "Foundation Cream", Category = "Makeup", Price = 45.00m, ImageUrl = "/images/makeup2.jpg", Description="A smooth base makeup that evens out skin tone.",StockQuantity = 2 },
-            new Product { Id = 7, Name = "Eyeshadow Palette", Category = "Makeup", Price = 60.00m, ImageUrl = "/images/makeup3.jpg", Description="A collection of colors used to enhance and define the eyes.",StockQuantity = 0 },
-            
-            // --- Clothing ---
-            new Product { Id = 3, Name = "Silk Saree Material", Category = "Clothing", Price = 80.00m, ImageUrl = "/images/clothing1.jpg", Description = "Soft silk material with traditional patterns." ,StockQuantity = 22},
-            new Product { Id = 8, Name = "Cotton Dress Fabric", Category = "Clothing", Price = 40.00m, ImageUrl = "/images/clothing2.jpg", Description="A soft, breathable material ideal for comfortable everyday wear.",StockQuantity = 0 },
-            new Product { Id = 9, Name = "Linen Suit Material", Category = "Clothing", Price = 110.00m, ImageUrl = "/images/clothing3.jpg", Description="A lightweight, durable fabric known for its cool and elegant finish." ,StockQuantity = 10}
+        var list = new List<Product>();
+
+        // --- 1. HANDBAGS BEAUTY NAMES ---
+        var bagNames = new Dictionary<string, string[]> {
+            { "Crossbody", new[] { "Stellar", "Luna", "Velvet", "Aria", "Willow" } },
+            { "Tote", new[] { "Heritage", "Horizon", "Empire", "Savoy", "Regal" } },
+            { "Hobo", new[] { "Nomad", "Serene", "Boho-Luxe", "Essence", "Azure" } },
+            { "Weekender", new[] { "Odyssey", "Voyage", "Escape", "Grand", "Latitude" } }
         };
+
+        foreach (var sub in bagNames.Keys) {
+            for (int i = 0; i < 5; i++) {
+                var p = new Product {
+                    Id = list.Count + 1,
+                    Name = $"{bagNames[sub][i]} {sub}",
+                    Category = "Handbags",
+                    SubCategory = sub,
+                    Price = 4500 + ((i + 1) * 500),
+                    ImageUrl = $"/images/{sub.ToLower()}{i + 1}.jpg",
+                    Description = $"A masterpiece of design, this {sub} bag defines modern elegance.",
+                    StockQuantity = 10
+                };
+                p.ProductReviews.Add(new Review { Name = "Ishani W.", Comment = "Absolutely stunning!", Rating = 5 });
+                list.Add(p);
+            }
+        }
+
+        // --- 2. MAKEUP BEAUTY NAMES ---
+        var makeupNames = new Dictionary<string, string[]> {
+            { "Lipsticks", new[] { "Rose Petal", "Crimson Vow", "Mauve Silk", "Ruby Envy", "Nude Aura" } },
+            { "Foundations", new[] { "Flawless", "Second Skin", "Radiant", "HD Matte", "Velvet" } },
+            { "Blushes", new[] { "Morning Dew", "Sunset Glow", "Peony Flush", "Coral Bloom", "Soft Iris" } },
+            { "Eyeshadows", new[] { "Celestial", "Earthly", "Midnight", "Ethereal", "Twilight" } },
+            { "Eyeliners", new[] { "Precision", "Ink Noir", "Infinity", "Vivid", "Stark" } }
+        };
+
+        foreach (var sub in makeupNames.Keys) {
+            for (int i = 0; i < 5; i++) {
+                var p = new Product {
+                    Id = list.Count + 1,
+                    Name = $"{makeupNames[sub][i]} {sub}",
+                    Category = "Makeup",
+                    SubCategory = sub,
+                    Price = 1200 + ((i + 1) * 200),
+                    ImageUrl = $"/images/{sub.ToLower()}{i + 1}.jpg",
+                    Description = $"Enhance your natural beauty with our signature {sub} collection.",
+                    StockQuantity = 15
+                };
+                p.ProductReviews.Add(new Review { Name = "Kavindi P.", Comment = "Best quality ever!", Rating = 5 });
+                list.Add(p);
+            }
+        }
+
+        // --- 3. CLOTHING BEAUTY NAMES ---
+        var clothingNames = new Dictionary<string, string[]> {
+            { "Casual", new[] { "Breeze", "Urban", "Sunday", "Linen", "Essential" } },
+            { "Sport", new[] { "Velocity", "Zenith", "Endurance", "Active", "Peak" } },
+            { "Formal", new[] { "Executive", "Majesty", "Grace", "Signature", "Elite" } },
+            { "Elegant", new[] { "Gala", "Soirée", "Enchanted", "Silk", "Ritz" } }
+        };
+
+        foreach (var sub in clothingNames.Keys) {
+            for (int i = 0; i < 5; i++) {
+                var p = new Product {
+                    Id = list.Count + 1,
+                    Name = $"{clothingNames[sub][i]} {sub}",
+                    Category = "Clothing",
+                    SubCategory = sub,
+                    Price = 2500 + ((i + 1) * 400),
+                    ImageUrl = $"/images/{sub.ToLower()}{i + 1}.jpg",
+                    Description = $"Crafted for comfort and style, our {sub} wear is a wardrobe essential.",
+                    StockQuantity = 8
+                };
+                p.ProductReviews.Add(new Review { Name = "Dilini R.", Comment = "Fits like a dream.", Rating = 4 });
+                list.Add(p);
+            }
+        }
+
+        return list;
     }
 
     public IActionResult Index()
@@ -36,39 +99,67 @@ public class ShopController : Controller
     [HttpPost]
     public IActionResult AddToCart(int productId)
     {
-        HttpContext.Session.SetInt32("LastAddedItem", productId);
+        var cartJson = HttpContext.Session.GetString("CartItems");
+        List<int> cartIds;
+
+        if (string.IsNullOrEmpty(cartJson))
+        {
+            cartIds = new List<int>();
+        }
+        else
+        {
+            cartIds = JsonConvert.DeserializeObject<List<int>>(cartJson);
+        }
+
+        cartIds.Add(productId);
+        HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartIds));
+
         return RedirectToAction("Cart");
     }
 
     public IActionResult Cart()
     {
-        int? itemId = HttpContext.Session.GetInt32("LastAddedItem");
-        if (itemId == null) return View(null);
+        var cartJson = HttpContext.Session.GetString("CartItems");
+        if (string.IsNullOrEmpty(cartJson))
+        {
+            return View(new List<Product>());
+        }
 
-        var product = GetMasterProductList().FirstOrDefault(p => p.Id == itemId);
-        return View(product);
+        var cartIds = JsonConvert.DeserializeObject<List<int>>(cartJson);
+        var allProducts = GetMasterProductList();
+
+        // This maps the IDs in the session back to the full Product objects
+        var cartProducts = allProducts.Where(p => cartIds.Contains(p.Id)).ToList();
+
+        return View(cartProducts);
     }
 
-    // ONLY ONE Category function (This fixes the AmbiguousMatchException)
-    public IActionResult Category(string name, string sortOrder)
+    public IActionResult Category(string name, string sub, string sortOrder)
     {
-        var allProducts = GetMasterProductList();
-        var filteredProducts = allProducts.Where(p => p.Category == name).ToList();
+        var products = GetMasterProductList().Where(p => p.Category == name).AsQueryable();
 
-        // Apply Sorting
+        if (!string.IsNullOrEmpty(sub))
+        {
+            products = products.Where(p => p.SubCategory == sub);
+        }
+
         switch (sortOrder)
         {
             case "price_low":
-                filteredProducts = filteredProducts.OrderBy(p => p.Price).ToList();
+                products = products.OrderBy(p => p.Price);
                 break;
             case "price_high":
-                filteredProducts = filteredProducts.OrderByDescending(p => p.Price).ToList();
+                products = products.OrderByDescending(p => p.Price);
+                break;
+            default:
+                products = products.OrderBy(p => p.Name);
                 break;
         }
 
         ViewBag.CategoryName = name;
-        ViewBag.CurrentSort = sortOrder;
-        return View(filteredProducts);
+        ViewBag.CurrentSubCategory = sub;
+        
+        return View(products.ToList());
     }
 
     public IActionResult Details(int id)
@@ -93,11 +184,50 @@ public class ShopController : Controller
 
         var results = GetMasterProductList()
             .Where(p => p.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || 
-                        p.Category.Contains(query, StringComparison.OrdinalIgnoreCase))
+                        p.Category.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+                        p.SubCategory.Contains(query, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
         ViewBag.SearchQuery = query;
         return View("Category", results);
     }
+
+    [HttpPost]
+public IActionResult RemoveFromCart(int productId)
+{
+    var cartJson = HttpContext.Session.GetString("CartItems");
+    if (!string.IsNullOrEmpty(cartJson))
+    {
+        var cartIds = JsonConvert.DeserializeObject<List<int>>(cartJson);
+        
+        // Remove the first instance of this product ID
+        cartIds.Remove(productId);
+
+        // Save the updated list back to session
+        HttpContext.Session.SetString("CartItems", JsonConvert.SerializeObject(cartIds));
+    }
+    return RedirectToAction("Cart");
+}
+
+public IActionResult Checkout()
+{
+    var cartJson = HttpContext.Session.GetString("CartItems");
+    if (string.IsNullOrEmpty(cartJson)) return RedirectToAction("Index");
+
+    var cartIds = JsonConvert.DeserializeObject<List<int>>(cartJson);
+    var allProducts = GetMasterProductList();
+    var cartProducts = allProducts.Where(p => cartIds.Contains(p.Id)).ToList();
+
+    return View(cartProducts); // We'll send the list to a "Confirm Order" page
+}
+
+[HttpPost]
+public IActionResult PlaceOrder()
+{
+    // Clear the cart after the order is "placed"
+    HttpContext.Session.Remove("CartItems");
     
+    return View("OrderSuccess");
+}
+
 }

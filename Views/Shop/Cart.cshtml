@@ -1,34 +1,70 @@
-@model LuxeFemStore.Models.Product
+@model List<LuxeFemStore.Models.Product>
 
 <div class="container mt-5">
-    <h2 class="text-center mb-4">Your Shopping Cart</h2>
+    <h2 class="text-center mb-5 fw-bold">Your Shopping Cart</h2>
 
-    @if (Model != null)
+    @if (Model == null || !Model.Any())
     {
-        <div class="card shadow-sm mx-auto" style="max-width: 600px;">
-            <div class="row g-0">
-                <div class="col-md-4">
-                    <img src="@Model.ImageUrl" class="img-fluid rounded-start" alt="@Model.Name">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">@Model.Name</h5>
-                        <p class="card-text text-muted">Category: @Model.Category</p>
-                        <p class="card-text fw-bold text-success">$@Model.Price</p>
-                        <div class="d-flex justify-content-between mt-4">
-                            <a asp-action="Index" class="btn btn-outline-secondary">Continue Shopping</a>
-                            <button class="btn btn-dark">Checkout Now</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="text-center py-5 shadow-sm rounded bg-light">
+            <i class="bi bi-cart-x display-1 text-muted"></i>
+            <p class="lead mt-3">Your cart is currently empty.</p>
+            <a asp-action="Index" class="btn btn-dark btn-lg mt-2">Start Shopping</a>
         </div>
     }
     else
     {
-        <div class="text-center">
-            <p class="lead">Your cart is currently empty.</p>
-            <a asp-action="Index" class="btn btn-dark">Go to Shop</a>
+        <div class="row">
+            <div class="col-md-8">
+                @foreach (var item in Model)
+                {
+                    <div class="card shadow-sm mb-3 border-0">
+                        <div class="row g-0 align-items-center">
+                            <div class="col-md-3 p-2">
+                                <img src="@item.ImageUrl" class="img-fluid rounded shadow-sm" alt="@item.Name" style="max-height: 120px; object-fit: cover;">
+                            </div>
+                            <div class="col-md-9">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <h5 class="card-title mb-1">@item.Name</h5>
+                                        <span class="text-success fw-bold">Rs. @item.Price.ToString("N2")</span>
+                                    </div>
+
+                                    <form asp-action="RemoveFromCart" method="post">
+                                <input type="hidden" name="productId" value="@item.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                   <i class="bi bi-trash"></i> Remove
+                                </button>
+                                      </form>
+                                    <p class="text-muted small mb-0">Category: @item.Category</p>
+                                    <p class="text-muted small">Sub-category: @item.SubCategory</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm border-0 p-4 bg-white sticky-top" style="top: 20px;">
+                    <h4 class="fw-bold mb-4">Order Summary</h4>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span class="text-muted">Total Items:</span>
+                        <span class="fw-bold">@Model.Count</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span class="text-muted">Shipping:</span>
+                        <span class="text-success small">FREE (Colombo/Gampaha)</span>
+                    </div>
+                    <hr />
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="h5 mb-0">Total:</span>
+                        <span class="h4 mb-0 text-dark fw-bold">Rs. @Model.Sum(x => x.Price).ToString("N2")</span>
+                    </div>
+                    
+                    <a asp-action="Checkout" class="btn btn-dark btn-lg w-100 mb-3 shadow">Proceed to Checkout</a>
+                    <a asp-action="Index" class="btn btn-outline-secondary w-100">Continue Shopping</a>
+                </div>
+            </div>
         </div>
     }
 </div>
